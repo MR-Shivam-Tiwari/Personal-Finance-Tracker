@@ -9,13 +9,7 @@ const userSchema = new mongoose.Schema({
   bio: { type: String },
   avtar: { type: String },
   phone: { type: String },
-  location: {
-    type: { type: String },
-    coordinates: [Number],
-  },
-  followers: [{ type: ObjectID, ref: 'User' }],
-  followings: [{ type: ObjectID, ref: 'User' }],
-  trips: [{ type: ObjectID, ref: 'Trip' }], // Add the trips field
+
 });
 
 userSchema.index({ location: '2dsphere' });
