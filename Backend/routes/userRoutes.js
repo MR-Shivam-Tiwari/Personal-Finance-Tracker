@@ -9,7 +9,7 @@ const User = require('../models/user')
 
 router.post('/register', async (req, res) => {
     try {
-        const { email, password, username, location } = req.body;
+        const { email, password, username } = req.body;
 
         if (!email || !password || !username) {
             return res.status(400).json({ message: 'email, password, and username are required' });
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const newUser = new User({ email, password, username, location });
+        const newUser = new User({ email, password, username });
         await newUser.save();
 
         console.log('User registered successfully:', newUser);
