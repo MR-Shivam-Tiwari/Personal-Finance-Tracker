@@ -81,7 +81,7 @@ function Navbar() {
 
   return (
     <div className=" lg:px-10">
-      <nav className="flex items-center h-14 px-4 border-b border-gray-200 bg-gray-50 dark:bg-gray-950 border-gray-200/40 dark:border-gray-800/40 justify-between lg:h-20 lg:px-6">
+      <nav className="flex items-center h-14 px-4 border-b border-gray-200 bg-gray-50  border-gray-200/40 justify-between lg:h-20 lg:px-6">
         <div className="flex items-center gap-4 text-lg font-semibold md:gap-4 lg:gap-10">
           <a className="flex items-center justify-center" href="/">
             <svg
@@ -188,7 +188,7 @@ function Navbar() {
         </div>
       </nav>
       {menuOpen && (
-        <div className="lg:hidden bg-gray-50 dark:bg-gray-950 p-4">
+        <div className="lg:hidden bg-gray-50  p-4">
           <Link to="/home">
             <div className="flex items-center text-sm font-medium">Home</div>
           </Link>

@@ -39,7 +39,7 @@ function NewFinancialData({ isOpen, onClose }) {
         console.log("Financial data saved successfully");
         onClose(); // Close the modal
         alert("Financial data saved successfully")
-        window.location.reload();
+        // window.location.reload();
       } else {
         // Error occurred while saving data
         console.error("Error saving financial data:", response.statusText);
