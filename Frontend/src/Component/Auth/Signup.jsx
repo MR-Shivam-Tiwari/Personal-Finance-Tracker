@@ -40,7 +40,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/register", {
+      const response = await axios.post("https://personal-finance-backend-nine.vercel.app/api/register", {
         email: data.email,
         password: data.password,
         username: data.username,
@@ -52,7 +52,7 @@ function Signup() {
 
       console.log("Server Response", response.data);
       alert("Registration  Successfully")
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Error submitting form:", error.message);
       alert(
@@ -130,7 +130,7 @@ function Signup() {
 
         <div className="text-center">
           <p>Already have an account?</p>
-          <a className="text-blue-600 underline" href="/login">
+          <a className="text-blue-600 underline" href="/">
             Log in
           </a>
         </div>

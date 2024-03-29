@@ -10,7 +10,7 @@ function FinencialHistory() {
     const fetchFinancialHistoryData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/financialdata/financial-history"
+          "https://personal-finance-backend-nine.vercel.app/api/financialdata/financial-history"
         ); // Assuming API endpoint is available at '/financial-history'
         const data = await response.json();
         setFinancialHistory(data.financialHistory);
@@ -27,7 +27,7 @@ function FinencialHistory() {
     const fetchFinancialCategoryData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/financialdata/expenses-category"
+          "https://personal-finance-backend-nine.vercel.app/api/financialdata/expenses-category"
         ); // Assuming API endpoint
         const data = await response.json();
         setFinancialCategory(data.expensesBreakdown); // Using expensesBreakdown property from API

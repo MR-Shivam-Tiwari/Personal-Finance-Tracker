@@ -15,7 +15,7 @@ function Dashboard() {
   useEffect(() => {
     // Fetch total income
     axios
-      .get("http://localhost:5000/api/financialdata/total-income")
+      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-income")
       .then((response) => {
         setTotalIncome(response.data.totalIncome);
       })
@@ -25,7 +25,7 @@ function Dashboard() {
 
     // Fetch total expenses
     axios
-      .get("http://localhost:5000/api/financialdata/total-expenses")
+      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-expenses")
       .then((response) => {
         setTotalExpenses(response.data.totalExpenses);
       })
@@ -35,7 +35,7 @@ function Dashboard() {
 
     // Fetch total investments
     axios
-      .get("http://localhost:5000/api/financialdata/total-investments")
+      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-investments")
       .then((response) => {
         setTotalInvestments(response.data.totalInvestments);
       })

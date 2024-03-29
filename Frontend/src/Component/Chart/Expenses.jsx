@@ -27,7 +27,7 @@ function Expenses() {
     useEffect(() => {
         const fetchExpensesData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/financialdata/expenses-breakdown");
+                const response = await fetch("https://personal-finance-backend-nine.vercel.app/api/financialdata/expenses-breakdown");
                 const data = await response.json();
                 const categories = Object.keys(data.expensesBreakdown);
                 const amounts = Object.values(data.expensesBreakdown);

@@ -16,7 +16,7 @@ function NewFinancialData({ isOpen, onClose }) {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/financialdata", {
+      const response = await fetch("https://personal-finance-backend-nine.vercel.app/api/financialdata", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

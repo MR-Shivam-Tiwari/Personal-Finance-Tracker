@@ -35,7 +35,7 @@ function Navbar() {
     // Clear user data from localStorage on logout
     localStorage.removeItem("UserData");
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
   const fetchUserProfile = async () => {
     try {
@@ -62,7 +62,7 @@ function Navbar() {
 
       // Make a GET request to fetch the user profile
       const response = await axios.get(
-        `http://localhost:5000/get-profile?email=${encodeURIComponent(
+        `https://personal-finance-backend-nine.vercel.app/get-profile?email=${encodeURIComponent(
           userEmail
         )}`
       );
@@ -106,14 +106,16 @@ function Navbar() {
               menuOpen ? "hidden" : "lg:flex"
             }`}
           >
-            <Link to="/">
+            <Link to="/home">
               <div className="flex items-center text-sm font-medium">Home</div>
             </Link>
-            <Link to="/dashboard">
-              <div className="flex items-center text-sm font-medium">
-                Dashboard
-              </div>
-            </Link>
+            {user && (
+              <Link to="/dashboard">
+                <div className="flex items-center text-sm font-medium">
+                  Dashboard
+                </div>
+              </Link>
+            )}
             <Link to="/contact">
               <div className="flex items-center text-sm font-medium">
                 Contact
@@ -165,7 +167,7 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/login">
+              <Link to="/">
                 <button
                   className="max-sm:hidden text-xs font-medium text-white h-9 rounded-md px-3"
                   style={{ background: "black" }}
@@ -187,14 +189,16 @@ function Navbar() {
       </nav>
       {menuOpen && (
         <div className="lg:hidden bg-gray-50 dark:bg-gray-950 p-4">
-          <Link to="/">
+          <Link to="/home">
             <div className="flex items-center text-sm font-medium">Home</div>
           </Link>
-          <Link to="/dashboard">
-            <div className="flex items-center text-sm font-medium">
-              Dashboard
-            </div>
-          </Link>
+          {user && (
+            <Link to="/dashboard">
+              <div className="flex items-center text-sm font-medium">
+                Dashboard
+              </div>
+            </Link>
+          )}
           <Link to="/contact">
             <div className="flex items-center text-sm font-medium">Contact</div>
           </Link>
@@ -205,7 +209,7 @@ function Navbar() {
               <span className="text-xs font-medium">{user.username}</span>
             ) : (
               <>
-                <Link to="/login">
+                <Link to="/">
                   <button
                     className="text-xs font-medium text-white h-9 rounded-md px-3"
                     style={{ background: "black" }}

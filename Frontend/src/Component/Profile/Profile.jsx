@@ -37,7 +37,7 @@ function Profile() {
 
       // Make a GET request to fetch the user profile
       const response = await axios.get(
-        `http://localhost:5000/get-profile?email=${encodeURIComponent(
+        `https://personal-finance-backend-nine.vercel.app/get-profile?email=${encodeURIComponent(
           userEmail
         )}`
       );
@@ -73,7 +73,7 @@ function Profile() {
 
       // Make a POST request to update the user profile
       const response = await axios.post(
-        "http://localhost:5000/api/update-profile",
+        "https://personal-finance-backend-nine.vercel.app/api/update-profile",
         data
       );
 
@@ -109,7 +109,7 @@ function Profile() {
     // Clear user data from localStorage on logout
     localStorage.removeItem("UserData");
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   return (

@@ -7,7 +7,7 @@ const NetSales = () => {
   useEffect(() => {
     const fetchFinancialData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/financialdata");
+        const response = await fetch("https://personal-finance-backend-nine.vercel.app/api/financialdata");
         const data = await response.json();
         setFinancialData(data);
       } catch (error) {

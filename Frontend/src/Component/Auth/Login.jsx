@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
   
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post("https://personal-finance-backend-nine.vercel.app/api/login", {
         email: data.email,
         password: data.password,
       });
@@ -30,7 +30,7 @@ function Login() {
       localStorage.setItem("UserData", JSON.stringify({ email: data.email, userId }));
   
       alert("Login Successfully");
-      navigate("/");
+      navigate("/home");
   
     } catch (error) {
       console.error("Error submitting form:", error.message);
