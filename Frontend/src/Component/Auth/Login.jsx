@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
   
     try {
-      const response = await axios.post("https://personal-finance-backend-nine.vercel.app/api/login", {
+      const response = await axios.post("https://personal-finance-backend-nine.vercel.app/api/", {
         email: data.email,
         password: data.password,
       });
