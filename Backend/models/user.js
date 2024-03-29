@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectID } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -12,7 +11,6 @@ const userSchema = new mongoose.Schema({
 
 });
 
-userSchema.index({ location: '2dsphere' });
 
 const User = mongoose.model('User', userSchema);
 
