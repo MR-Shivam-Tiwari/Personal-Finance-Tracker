@@ -36,6 +36,7 @@ function Navbar() {
     localStorage.removeItem("UserData");
     setUser(null);
     navigate("/");
+    window.location.reload();
   };
   const fetchUserProfile = async () => {
     try {
@@ -202,6 +203,13 @@ function Navbar() {
           <Link to="/contact">
             <div className="flex items-center text-sm font-medium">Contact</div>
           </Link>
+          <button
+            onClick={handleLogout}
+            className=" text-xs font-medium mt-3 w-full  text-white h-9 rounded-md px-3"
+            style={{ background: "black" }}
+          >
+            Logout
+          </button>
 
           <div className="gap-4 flex justify-between mt-2">
             {user ? (
