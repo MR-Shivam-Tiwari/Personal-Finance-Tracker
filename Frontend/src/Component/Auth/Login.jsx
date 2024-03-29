@@ -116,7 +116,7 @@ function Login() {
         </div>
         <div className="flex flex-col items-center justify-center space-y-2">
           <a
-            className="inline-flex h-9 items-center rounded-md border  bg-white px-4 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+            className="inline-flex h-9 items-center rounded-md border  bg-white px-4 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100  dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
             href="/signup"
           >
             Create an account

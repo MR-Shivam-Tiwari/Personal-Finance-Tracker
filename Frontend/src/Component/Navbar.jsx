@@ -83,7 +83,7 @@ function Navbar() {
     <div className=" lg:px-10">
       <nav className="flex items-center h-14 px-4 border-b border-gray-200 bg-gray-50  border-gray-200/40 justify-between lg:h-20 lg:px-6">
         <div className="flex items-center gap-4 text-lg font-semibold md:gap-4 lg:gap-10">
-          <a className="flex items-center justify-center" href="/">
+          <a className="flex items-center justify-center" href="/home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -98,7 +98,7 @@ function Navbar() {
             >
               <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
             </svg>
-            <span className="sr-only">Acme Inc</span>
+            {/* <span className="sr-only">Acme Inc</span> */}
           </a>
 
           <div

@@ -66,7 +66,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 bg-gray-100 dark:bg-gray-800">
+        <section className="w-full py-12 md:py-24 bg-gray-100 dark:bg-gray-200">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
