@@ -33,7 +33,7 @@ function NewFinancialData({ isOpen, onClose }) {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/financialdata",
+        "https://personal-finance-backend-nine.vercel.app/api/financialdata",
         {
           method: "POST",
           headers: {

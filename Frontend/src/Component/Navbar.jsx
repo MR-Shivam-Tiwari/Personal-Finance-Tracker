@@ -35,7 +35,7 @@ function Navbar() {
     // Clear user data from localStorage on logout
     localStorage.removeItem("UserData");
     setUser(null);
-    navigate("/");
+    navigate("/login");
     window.location.reload();
   };
   const fetchUserProfile = async () => {

@@ -130,7 +130,7 @@ function Signup() {
 
         <div className="text-center">
           <p>Already have an account?</p>
-          <a className="text-blue-600 underline" href="/">
+          <a className="text-blue-600 underline" href="/login">
             Log in
           </a>
         </div>

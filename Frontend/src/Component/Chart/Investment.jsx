@@ -21,7 +21,7 @@ function Investment() {
   useEffect(() => {
     const fetchInvestmentData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/financialdata/investment-growth?email=${email}`);
+        const response = await fetch(`https://personal-finance-backend-nine.vercel.app/api/financialdata/investment-growth?email=${email}`);
         const data = await response.json();
         setInvestmentData(data.investmentGrowthByDate);
       } catch (error) {

@@ -22,7 +22,7 @@ const NetSales = () => {
     const fetchFinancialData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/financialdata?email=${email}`
+          `https://personal-finance-backend-nine.vercel.app/api/financialdata?email=${email}`
         );
         const data = await response.json();
         setFinancialData(data);
