@@ -2,6 +2,20 @@ import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 function Expenses() {
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    // Retrieve UserData from local storage
+    const userDataString = localStorage.getItem("UserData");
+
+    // Parse the UserData string to extract email
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const userEmail = userData.email;
+      setEmail(userEmail);
+      console.log("Email retrieved from local storage:", userEmail);
+    }
+  }, []);
     const [chartData, setChartData] = useState({
         series: [], // Will be updated with fetched expense amounts
         options: {
@@ -25,27 +39,30 @@ function Expenses() {
     });
 
     useEffect(() => {
-        const fetchExpensesData = async () => {
-            try {
-                const response = await fetch("https://personal-finance-backend-nine.vercel.app/api/financialdata/expenses-breakdown");
-                const data = await response.json();
-                const categories = Object.keys(data.expensesBreakdown);
-                const amounts = Object.values(data.expensesBreakdown);
-                setChartData({
-                    ...chartData,
-                    series: amounts,
-                    options: {
-                        ...chartData.options,
-                        labels: categories
-                    }
-                });
-            } catch (error) {
-                console.error("Error fetching expenses data:", error);
+      const fetchExpensesData = async () => {
+        try {
+          const response = await fetch(`http://localhost:5000/api/financialdata/expenses-breakdown?email=${email}`);
+          const data = await response.json();
+          const categories = Object.keys(data.expensesBreakdown);
+          const amounts = Object.values(data.expensesBreakdown);
+          setChartData({
+            ...chartData,
+            series: amounts,
+            options: {
+              ...chartData.options,
+              labels: categories
             }
-        };
-
+          });
+        } catch (error) {
+          console.error("Error fetching expenses data:", error);
+        }
+      };
+  
+      if (email) {
         fetchExpensesData();
-    }, []);
+      }
+    }, [email]);
+  
 
     return (
         <div>

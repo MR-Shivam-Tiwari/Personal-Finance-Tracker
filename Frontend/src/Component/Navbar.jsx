@@ -81,47 +81,100 @@ function Navbar() {
   }, []);
 
   return (
-    <div className=" lg:px-10">
-      <nav className="flex items-center h-14 px-4 border-b border-gray-200 bg-gray-50  border-gray-200/40 justify-between lg:h-20 lg:px-6">
+    <div className=" bg-blue-100 dark:bg-gray-50">
+      <nav className="flex items-center h-14 px-4 border-b border-gray-600  border-gray-200/40 justify-between  lg:px-6">
         <div className="flex items-center gap-4 text-lg font-semibold md:gap-4 lg:gap-10">
-          <a className="flex items-center justify-center" href="/home">
+          <a
+            className="flex items-center space-x-2 text-1xl font-bold tracking-wider"
+            href="/"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
               fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="h-6 w-6"
+              class="w-6 h-6"
             >
-              <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"
+              />
             </svg>
-            {/* <span className="sr-only">Acme Inc</span> */}
           </a>
-
           <div
             className={`lg:flex max-sm:hidden space-x-4 text-black ${
               menuOpen ? "hidden" : "lg:flex"
             }`}
           >
-            <Link to="/home">
-              <div className="flex items-center text-sm font-medium">Home</div>
-            </Link>
+            <a
+              class="flex items-center space-x-2 text-gray hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-950"
+              href="/"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                // class="w-6 h-6"
+              >
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Home</span>
+            </a>
             {user && (
-              <Link to="/dashboard">
-                <div className="flex items-center text-sm font-medium">
-                  Dashboard
-                </div>
-              </Link>
+              <a
+                class="flex items-center space-x-2 text-gray hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-950"
+                href="/profile"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 aspect-square"
+                >
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+              </a>
             )}
-            <Link to="/contact">
-              <div className="flex items-center text-sm font-medium">
-                Contact
-              </div>
-            </Link>
+            {user && (
+              <a
+                class="flex items-center space-x-2 text-gray hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-950"
+                href="/dashboard"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4 aspect-square"
+                >
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+                <span>Analytics</span>
+              </a>
+            )}
           </div>
         </div>
         <div className="flex items-center space-x-4 lg:space-x-8">
@@ -144,13 +197,12 @@ function Navbar() {
                 </Tooltip>
               </div>
 
-              <div
+              {/* <div
                 className="cursor-pointer"
                 onClick={() => navigate("./profile")}
               >
-                {/* Render user name */}
                 <Avatar alt="User" src={userProfile.avtar} />
-              </div>
+              </div> */}
 
               <button
                 onClick={handleLogout}
@@ -168,7 +220,7 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/">
+              <Link to="/login">
                 <button
                   className="max-sm:hidden text-xs font-medium text-white h-9 rounded-md px-3"
                   style={{ background: "black" }}
@@ -190,19 +242,23 @@ function Navbar() {
       </nav>
       {menuOpen && (
         <div className="lg:hidden bg-gray-50  p-4">
-          <Link to="/home">
+          <Link to="/">
             <div className="flex items-center text-sm font-medium">Home</div>
           </Link>
           {user && (
             <Link to="/dashboard">
               <div className="flex items-center text-sm font-medium">
-                Dashboard
+                Analytics
               </div>
             </Link>
           )}
-          <Link to="/contact">
-            <div className="flex items-center text-sm font-medium">Contact</div>
-          </Link>
+          {user && (
+            <Link to="/profile">
+              <div className="flex items-center text-sm font-medium">
+                Profile
+              </div>
+            </Link>
+          )}
           <button
             onClick={handleLogout}
             className=" text-xs font-medium mt-3 w-full  text-white h-9 rounded-md px-3"
@@ -217,7 +273,7 @@ function Navbar() {
               <span className="text-xs font-medium">{user.username}</span>
             ) : (
               <>
-                <Link to="/">
+                <Link to="/login">
                   <button
                     className="text-xs font-medium text-white h-9 rounded-md px-3"
                     style={{ background: "black" }}

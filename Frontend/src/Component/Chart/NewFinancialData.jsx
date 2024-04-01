@@ -1,5 +1,5 @@
 // NewFinancialData Component
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function NewFinancialData({ isOpen, onClose }) {
   const [modalOpen, setModalOpen] = useState(isOpen);
@@ -11,37 +11,50 @@ function NewFinancialData({ isOpen, onClose }) {
   const [expensesDate, setExpensesDate] = useState("");
   const [investmentAmount, setInvestmentAmount] = useState("");
   const [investmentDate, setInvestmentDate] = useState("");
+  const [savingAmount, setsavingAmount] = useState("");
+  const [savingdate, setsavingdate] = useState("");
+  const [email, setEmail] = useState(""); 
+  const [investmentType, setinvestmentType] = useState("")
+  useEffect(() => {
+    // Retrieve UserData from local storage
+    const userDataString = localStorage.getItem("UserData");
+
+    // Parse the UserData string to extract email
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const userEmail = userData.email;
+      setEmail(userEmail);
+      console.log("Email retrieved from local storage:", userEmail);
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch("https://personal-finance-backend-nine.vercel.app/api/financialdata", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          income: [{ amount: incomeAmount, date: incomeDate }],
-          expenses: [
-            {
-              amount: expensesAmount,
-              category: expensesCategory,
-              date: expensesDate,
-            },
-          ],
-          investments: [{ amount: investmentAmount, date: investmentDate }],
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/financialdata",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            income: [{ amount: incomeAmount, date: incomeDate }],
+            expenses: [{ amount: expensesAmount, category: expensesCategory, date: expensesDate }],
+            investments: [{ amount: investmentAmount,type:investmentType , date: investmentDate }],
+            savings: [{ amount: savingAmount, date: savingdate }],
+          }),
+        }
+      );
 
       if (response.ok) {
-        // Data successfully saved
         console.log("Financial data saved successfully");
-        onClose(); // Close the modal
-        alert("Financial data saved successfully")
-        // window.location.reload();
+        onClose();
+        alert("Financial data saved successfully");
+        window.location.reload();
       } else {
-        // Error occurred while saving data
         console.error("Error saving financial data:", response.statusText);
       }
     } catch (error) {
@@ -200,18 +213,33 @@ function NewFinancialData({ isOpen, onClose }) {
                         <div className="space-y-2">
                           <label
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            for="income-amount"
+                            for="invest-amount"
                           >
                             Amount
                           </label>
                           <input
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            id="income-amount"
+                            id="invest-amount"
                             placeholder="Amount"
                             value={investmentAmount}
                             onChange={(e) =>
                               setInvestmentAmount(e.target.value)
                             }
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="income-type"
+                          >
+                            Type
+                          </label>
+                          <input
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="invest-type"
+                            placeholder="Type of Investing"
+                            value={investmentType}
+                            onChange={(e) => setinvestmentType(e.target.value)}
                           />
                         </div>
                         <div className="space-y-3">
@@ -226,6 +254,43 @@ function NewFinancialData({ isOpen, onClose }) {
                             type="date"
                             value={investmentDate}
                             onChange={(e) => setInvestmentDate(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg leading-6 font-semibold">
+                          Savings
+                        </h3>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <label
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="income-amount"
+                          >
+                            Amount
+                          </label>
+                          <input
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            id="income-amount"
+                            placeholder="Amount"
+                            value={savingAmount}
+                            onChange={(e) => setsavingAmount(e.target.value)}
+                          />
+                        </div>
+                        <div className="space-y-3">
+                          <div
+                            className="text-sm  mt-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            for="income-amount"
+                          >
+                            Date
+                          </div>
+                          <input
+                            className="inline-flex  items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2  text-left font-normal"
+                            type="date"
+                            value={savingdate}
+                            onChange={(e) => setsavingdate(e.target.value)}
                           />
                         </div>
                       </div>

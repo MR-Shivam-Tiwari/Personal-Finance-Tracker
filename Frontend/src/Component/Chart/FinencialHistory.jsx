@@ -4,13 +4,27 @@ function FinencialHistory() {
   const [financialHistory, setFinancialHistory] = useState({});
   const [financialCategory, setFinancialCategory] = useState([]);
   const [showHistoryTable, setShowHistoryTable] = useState(true);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    // Retrieve UserData from local storage
+    const userDataString = localStorage.getItem("UserData");
+
+    // Parse the UserData string to extract email
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const userEmail = userData.email;
+      setEmail(userEmail);
+      console.log("Email retrieved from local storage:", userEmail);
+    }
+  }, []);
 
   useEffect(() => {
     // Fetch financial data from API for financial history
     const fetchFinancialHistoryData = async () => {
       try {
         const response = await fetch(
-          "https://personal-finance-backend-nine.vercel.app/api/financialdata/financial-history"
+          `http://localhost:5000/api/financialdata/financial-history?email=${email}`
         ); // Assuming API endpoint is available at '/financial-history'
         const data = await response.json();
         setFinancialHistory(data.financialHistory);
@@ -20,40 +34,36 @@ function FinencialHistory() {
     };
 
     fetchFinancialHistoryData();
-  }, []);
+  }, [email]); // Add email to the dependency array to trigger the effect when email changes
 
   useEffect(() => {
     // Fetch financial data from API for expenses category breakdown
     const fetchFinancialCategoryData = async () => {
       try {
         const response = await fetch(
-          "https://personal-finance-backend-nine.vercel.app/api/financialdata/expenses-category"
+          `http://localhost:5000/api/financialdata/expenses-category?email=${email}`
         ); // Assuming API endpoint
         const data = await response.json();
-        setFinancialCategory(data.expensesBreakdown); // Using expensesBreakdown property from API
+        setFinancialCategory(data.expensesBreakdown || []); // Using expensesBreakdown property from API, provide default empty array if it's undefined
       } catch (error) {
         console.error("Error fetching financial category data:", error);
       }
     };
 
     fetchFinancialCategoryData();
-  }, []);
+  }, [email]);
 
   const toggleTable = () => {
     setShowHistoryTable(!showHistoryTable);
   };
-
   return (
     <div>
-      <div
-        className="rounded-lg border bg-card text-card-foreground shadow-sm grid-cols-2"
-        data-v0-t="card"
-      >
+      <div className="rounded-lg border bg-card text-card-foreground shadow-sm grid-cols-2">
         <div className="flex items-center justify-center">
           <div className="w-full ">
             <div style={{ width: "100%", height: "100%" }}>
               <div className="flex flex-col w-full min-h-screen">
-                <header className="flex items-center h-[60px] gap-4 px-6 border-b lg:gap-6 bg-gray-100/40 dark:bg-gray-800/40">
+                <header className="flex items-center h-[60px] gap-4 px-6 border-b lg:gap-6">
                   <div className="flex items-center gap-2">
                     <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
                       Financial History
@@ -64,7 +74,7 @@ function FinencialHistory() {
                   <div className="grid gap-4">
                     <div className="flex items-center gap-4">
                       <button
-                        className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-auto ${
+                        className={`inline-flex items-center justify-center  bg-white   rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-auto ${
                           showHistoryTable ? "bg-accent" : ""
                         }`}
                         onClick={toggleTable}
@@ -97,7 +107,7 @@ function FinencialHistory() {
                         All Time
                       </button>
                       <button
-                        className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-auto ${
+                        className={`inline-flex items-center justify-center bg-white whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-auto ${
                           !showHistoryTable ? "bg-accent" : ""
                         }`}
                         onClick={toggleTable}
@@ -128,7 +138,10 @@ function FinencialHistory() {
                       </button>
                     </div>
                     {showHistoryTable ? (
-                      <div className="border rounded-lg">
+                      <div
+                        class="rounded-lg border border-gray shadow-lg overflow-y-auto "
+                        style={{ height: "350px" }}
+                      >
                         <div className="relative w-full overflow-auto">
                           <table className="w-full caption-bottom text-sm">
                             <thead className="[&amp;_tr]:border-b">
@@ -148,33 +161,37 @@ function FinencialHistory() {
                               </tr>
                             </thead>
                             <tbody className="[&amp;_tr:last-child]:border-0">
-                              {Object.keys(financialHistory).map((date) =>
-                                financialHistory[date].map((entry, index) => (
-                                  <tr
-                                    key={index}
-                                    className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
-                                  >
-                                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                      {date}
-                                    </td>
-                                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                      {entry.type}
-                                    </td>
-                                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                      {entry.category}
-                                    </td>
-                                    <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold">
-                                      ${entry.amount.toFixed(2)}
-                                    </td>
-                                  </tr>
-                                ))
-                              )}
+                              {financialHistory &&
+                                Object.keys(financialHistory).map((date) =>
+                                  financialHistory[date].map((entry, index) => (
+                                    <tr
+                                      key={index}
+                                      className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                                    >
+                                      <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                        {date}
+                                      </td>
+                                      <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                        {entry.type}
+                                      </td>
+                                      <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                        {entry.category}
+                                      </td>
+                                      <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-semibold">
+                                        ${entry.amount.toFixed(2)}
+                                      </td>
+                                    </tr>
+                                  ))
+                                )}
                             </tbody>
                           </table>
                         </div>
                       </div>
                     ) : (
-                      <div className="border rounded-lg">
+                      <div
+                        class="rounded-lg border border-gray shadow-lg overflow-y-auto "
+                        style={{ height: "350px" }}
+                      >
                         <div className="relative w-full overflow-auto">
                           <table className="w-full caption-bottom text-sm">
                             <thead className="[&amp;_tr]:border-b">

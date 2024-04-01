@@ -11,11 +11,28 @@ function Dashboard() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalInvestments, setTotalInvestments] = useState(0);
+  const [totalSavings, setTotalSavings] = useState(0);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    // Retrieve UserData from local storage
+    const userDataString = localStorage.getItem("UserData");
+
+    // Parse the UserData string to extract email
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const userEmail = userData.email;
+      setEmail(userEmail);
+      console.log("Email retrieved from local storage:", userEmail);
+    }
+  }, []);
 
   useEffect(() => {
     // Fetch total income
     axios
-      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-income")
+      .get(
+        `http://localhost:5000/api/financialdata/total-income?email=${email}`
+      )
       .then((response) => {
         setTotalIncome(response.data.totalIncome);
       })
@@ -25,9 +42,22 @@ function Dashboard() {
 
     // Fetch total expenses
     axios
-      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-expenses")
+      .get(
+        `http://localhost:5000/api/financialdata/total-expenses?email=${email}`
+      )
       .then((response) => {
         setTotalExpenses(response.data.totalExpenses);
+      })
+      .catch((error) => {
+        console.error("Error fetching total expenses:", error);
+      });
+      //Fetch Total savings
+    axios
+      .get(
+        `http://localhost:5000/api/financialdata/total-savings?email=${email}`
+      )
+      .then((response) => {
+        setTotalSavings(response.data.totalSavings);
       })
       .catch((error) => {
         console.error("Error fetching total expenses:", error);
@@ -35,14 +65,16 @@ function Dashboard() {
 
     // Fetch total investments
     axios
-      .get("https://personal-finance-backend-nine.vercel.app/api/financialdata/total-investments")
+      .get(
+        `http://localhost:5000/api/financialdata/total-investments?email=${email}`
+      )
       .then((response) => {
         setTotalInvestments(response.data.totalInvestments);
       })
       .catch((error) => {
         console.error("Error fetching total investments:", error);
       });
-  }, []);
+  }, [email]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -52,8 +84,8 @@ function Dashboard() {
     setIsModalOpen(false);
   };
   return (
-    <div className="">
-      <div className="px-4 mb-3">
+    <div className="bg-gray-200">
+      <div className="p-4  mb-3">
         <button
           onClick={openModal}
           className="  whitespace-nowrap text-white bg-black flex items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-2 md:ml-auto"
@@ -64,8 +96,11 @@ function Dashboard() {
           <NewFinancialData isOpen={isModalOpen} onClose={closeModal} />
         </div>
       </div>
-      <div className="grid md:grid-cols-3 px-4 gap-4">
-        <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div className="grid md:grid-cols-4 px-4 gap-4">
+        <div
+          className="rounded-lg  bg-black text-white  shadow-lg bg-card text-card-foreground "
+          style={{ border: "2px solid #c3c3c3" }}
+        >
           <div className=" p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
               <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
@@ -75,11 +110,12 @@ function Dashboard() {
             </div>
           </div>
         </div>
+
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm"
-          data-v0-t="card"
+          className="rounded-lg bg-black text-white border bg-card text-card-foreground shadow-sm"
+          style={{ border: "2px solid #c3c3c3" }}
         >
-          <div className="space-y-1.5 p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
+          <div className="space-y-1.5 rounded-lg  shadow-lg  p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
               <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
                 ${totalExpenses}
@@ -88,12 +124,24 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm"
-          data-v0-t="card"
+          className="rounded-lg bg-black text-white border bg-card text-card-foreground shadow-sm"
+          style={{ border: "2px solid #c3c3c3" }}
         >
-          <div className="space-y-1.5 p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
+          <div className="space-y-1.5 rounded-lg  shadow-lg  p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
+            <div className="flex flex-col">
+              <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
+                ${totalSavings}
+              </h3>
+              <p className="text-sm text-muted-foreground">Total Savings</p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="rounded-lg bg-black  text-white border bg-card text-card-foreground shadow-sm"
+          style={{ border: "2px solid #c3c3c3" }}
+        >
+          <div className="space-y-1.5  shadow-lg p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
               <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">
                 ${totalInvestments}
@@ -105,8 +153,8 @@ function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 p-4">
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm grid-cols-2"
-          data-v0-t="card"
+          className="rounded-lg  border  shadow-lg bg-card text-card-foreground  grid-cols-2"
+          style={{ border: "2px solid #c3c3c3" }}
         >
           <div className="space-y-1.5 p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
@@ -127,8 +175,8 @@ function Dashboard() {
           </div>
         </div>
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm grid-cols-2"
-          data-v0-t="card"
+          className="rounded-lg border border-gray shadow-lg bg-card text-card-foreground  grid-cols-2"
+          style={{ border: "2px solid #c3c3c3" }}
         >
           <div className="space-y-1.5 p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
@@ -152,8 +200,8 @@ function Dashboard() {
           </div>
         </div>
         <div
-          className="rounded-lg border bg-card text-card-foreground shadow-sm grid-cols-2"
-          data-v0-t="card"
+          className="rounded-lg border-2 border-block shadow-lg bg-card text-card-foreground  grid-cols-2"
+          style={{ border: "2px solid #c3c3c3" }}
         >
           <div className="space-y-1.5 p-6 flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex flex-col">
@@ -173,7 +221,10 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div>
+        <div
+          class="rounded-lg border border-gray shadow-lg  "
+          style={{ border: "2px solid #c3c3c3" }}
+        >
           <FinencialHistory />
         </div>
       </div>
@@ -182,6 +233,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-// const domContainer = document.querySelector('#app');
-// ReactDOM.render(<ApexChart />, domContainer);

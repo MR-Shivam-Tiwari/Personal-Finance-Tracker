@@ -30,7 +30,7 @@ function Login() {
       localStorage.setItem("UserData", JSON.stringify({ email: data.email, userId }));
   
       alert("Login Successfully");
-      navigate("/home");
+      navigate("/");
   
     } catch (error) {
       console.error("Error submitting form:", error.message);
@@ -50,7 +50,7 @@ function Login() {
   
 
   return (
-    <div className=" flex items-center justify-center ">
+    <div className=" flex items-center justify-center h-[600px] ">
       <div className="py-5    px-4 justify-center space-y-2 md:space-y-2">
         <div className="flex flex-col rounded-lg border border-gray-200 bg-white w-[350px]  shadow-lg overflow-hidden dark:border-gray-800">
           <div className="grid w-full  items-stretch px-6 py-3">
