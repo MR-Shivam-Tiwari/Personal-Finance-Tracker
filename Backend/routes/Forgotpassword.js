@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const UserSchema = require('../modules/UserSchema'); // Replace with your actual User model
+const UserSchema = require('../config/UserSchema'); // Replace with your actual User model
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
