@@ -1,7 +1,7 @@
 // routes/financialDataRoutes.js
 const express = require('express');
 const router = express.Router();
-const FinancialData = require('../models/FinancialData');
+const FinancialData = require('../config/FinancialData');
 
 
 
