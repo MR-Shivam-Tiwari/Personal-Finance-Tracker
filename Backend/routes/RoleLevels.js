@@ -1,4 +1,4 @@
-const User = require("../modules/UserSchema");
+const User = require("../config/UserSchema");
 const Roles = require("./Roles");
 const jwt = require("jsonwebtoken");
 const secretKey = "mytestsecretkey";
