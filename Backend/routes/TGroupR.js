@@ -1,6 +1,6 @@
 const express = require("express");
-const TGroupSchema = require("../modules/TGroupSchema");
-const Task = require("../modules/TaskSchema");
+const TGroupSchema = require("../config/TGroupSchema");
+const Task = require("../config/TaskSchema");
 const LevelsRoutes = require("./RoleLevels");
 const bodyParser = require('body-parser');
 
