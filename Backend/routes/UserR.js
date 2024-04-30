@@ -1,7 +1,7 @@
 // const { default: mongoose } = require("mongoose");
 
 // const { json } = require("express");
-const UserSchema = require("../modules/UserSchema");
+const UserSchema = require("../config/UserSchema");
 const express = require("express");
 const mongoose = require("mongoose");
 const Router = express.Router();
