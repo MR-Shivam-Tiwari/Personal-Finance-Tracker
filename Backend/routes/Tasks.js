@@ -1,5 +1,5 @@
 const express = require("express");
-const Task = require("../modules/TaskSchema");
+const Task = require("../config/TaskSchema");
 const app = express.Router();
 
 app.get("/tasks", async (req, res) => {
