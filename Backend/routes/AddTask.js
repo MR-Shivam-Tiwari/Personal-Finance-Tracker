@@ -1,7 +1,7 @@
 const express = require("express");
-const Task = require("../modules/TaskSchema");
-const Notification = require("../modules/Notification");
-const UserSchema = require("../modules/UserSchema");
+const Task = require("../config/TaskSchema");
+const Notification = require("../config/Notification");
+const UserSchema = require("../config/UserSchema");
 const multer = require('multer');
 const app = express.Router();
 const { Expo } = require("expo-server-sdk");
