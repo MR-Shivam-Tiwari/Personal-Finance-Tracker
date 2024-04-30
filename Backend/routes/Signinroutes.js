@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Register = require('../modules/UserSchema');
+const Register = require('../config/UserSchema');
 const Router = express.Router();
-const Signin = require('../modules/Signin');
+const Signin = require('../config/Signin');
 const bcrypt = require('bcrypt');
 const secretKey = 'mytestsecretkey'
 
