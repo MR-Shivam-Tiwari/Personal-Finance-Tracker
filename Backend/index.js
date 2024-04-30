@@ -1,50 +1,44 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const userRoutes = require('./routes/userRoutes');
-const User = require('./models/user'); 
-const financialDataRoutes = require('./routes/financialDataRoutes');
+const mongoose = require('mongoose');
+const cors = require('cors'); // Import the cors package
+const UserR = require('./Routes/UserR');
+const Signinroutes = require('./Routes/Signinroutes');
+const AddTask = require('./Routes/AddTask');
+const TaskGroup = require('./Routes/Tasks');
+const TGroupR = require('./Routes/TGroupR');
+const ForgetPassword = require('./Routes/Forgotpassword');
+const ResetPassword = require('./Routes/Resetpassword');
 
 const app = express();
 const PORT = 5000;
 
+// MongoDB connection
+mongoose.connect('mongodb+srv://Promise:Promise@cluster0.iufeasi.mongodb.net/?retryWrites=true&w=majority', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("Database connected successfully"))
+.catch(err => console.error("Database connection error", err));
+
+// Middleware
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ extended: true, limit: "100mb" }));
+
+// Use cors middleware to enable CORS
 app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
-connectDB();
 
-app.get('/get-profile', async (req, res) => {
-    try {
-        const { email } = req.query;
+// Routes
+app.use('/api', UserR);
+app.use('/api', Signinroutes);
+app.use('/api', AddTask);
+app.use('/api', TaskGroup);
+app.use('/api', TGroupR);
+app.use('/api', ForgetPassword);
+app.use('/api', ResetPassword);
 
-        // Check if the required email is present
-        if (!email) {
-            return res.status(400).json({ message: 'Email is required' });
-        }
-
-        // Fetch user profile from the database based on the provided email
-        const user = await User.findOne({ email });
-
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-        res.status(500).json({ message: 'Error fetching user profile', error: error.message });
-    }
-});
-
-app.get('/', (req, res) => {
-    res.send('Welcome');
-});
-
-app.use('/api/financialdata', financialDataRoutes);
-
-
-app.use('/api', userRoutes);
-
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
